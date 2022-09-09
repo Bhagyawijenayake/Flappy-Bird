@@ -14,6 +14,9 @@ public class Player : MonoBehaviour
 
     public float strength = 5f;
 
+    [SerializeField] private AudioSource jumpSoundEffect;
+    [SerializeField] private AudioSource crashSoundEffect;
+
     private void Awake()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
@@ -38,6 +41,7 @@ public class Player : MonoBehaviour
         if(Input.GetKeyDown(KeyCode.Space)|| Input.GetMouseButtonDown(0))
         {
             direction = Vector3.up * strength ;
+            jumpSoundEffect.Play();
         }
 
         if (Input.touchCount >0)
@@ -46,6 +50,7 @@ public class Player : MonoBehaviour
             if (touch.phase==TouchPhase.Began)
             {
                 direction = Vector3.up * strength;
+                jumpSoundEffect.Play();
             }
         }
 
@@ -69,6 +74,7 @@ public class Player : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Obstacle"))
         {
+            crashSoundEffect.Play();
             FindObjectOfType<GameManager>().GameOver();
         }
         else if (other.gameObject.CompareTag("Scoring"))
